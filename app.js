@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 const port = 3009;
 const fs = require("fs/promises");
+const { createHandler } = require('graphql-http/lib/use/http');
+const { 
+    GraphQLSchema, 
+} = require('graphql');
+
+const QueryType = require('./grapqhl/rootType/queryType');
+const MutationType = require('./grapqhl/rootType/MutationType');
 
 let lastId = 2;
 
@@ -9,7 +16,27 @@ let studentsTable = [
     
 ];
 
+const schema = new GraphQLSchema({
+  query: QueryType,
+  mutation: MutationType,
+});
+
+const graphQLHandler = createHandler({
+    schema,
+});
+
+app.post('/graphql', graphQLHandler);
+
+
+
+
+
+
+
+
+
 app.use(express.json());
+
 
 app.get('/student', async (req, res) => {
     const data = await fs.readFile('students.json');
