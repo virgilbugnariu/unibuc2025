@@ -1,6 +1,6 @@
 const StudentType = require("../types/StudentType");
 const CreateStudentInputType = require("../inputTypes/CreateStudentInputType");
-const { createEntity } = require('../../fakeDb');
+const db = require("../../models");
 
 const createStudentMutation = {
             type: StudentType,
@@ -9,15 +9,17 @@ const createStudentMutation = {
                     type: CreateStudentInputType,
                 }
             },
-            resolve: (_, args) => {
-                console.log(args);
+            resolve: async (_, args) => {
                 const { firstName, lastName, age } = args.input;
                 
-                return createEntity('students', {
+                const student = await db.Student.create({
                     firstName,
                     lastName,
                     age,
                 });
+
+                return student;
+
             }
         }
 

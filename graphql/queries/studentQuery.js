@@ -2,7 +2,7 @@ const {
     GraphQLInt,
 } = require('graphql');
 const StudentType = require('../types/StudentType');
-const { findEntity } = require('../../fakeDb');
+const db = require('../../models');
 
 const studentQuery = {
     type: StudentType,
@@ -11,9 +11,12 @@ const studentQuery = {
             type: GraphQLInt,
         },
     },
-    resolve: (_, args) => {
+    resolve: async (_, args) => {
         const { id } = args;
-        return findEntity('students', id);
+        
+        const student = await db.Student.findByPk(id);
+
+        return student;
     }
 }
 

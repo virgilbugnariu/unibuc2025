@@ -10,6 +10,10 @@
 //     password: faker.internet.password(),
 //   };
 // }
+const bcrypt = require('bcrypt');
+
+const generateHash = (plaintextPassword) => bcrypt.hashSync(plaintextPassword, 3);
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -18,20 +22,20 @@ module.exports = {
     const users = [
       {
         username: "virgil",
-        password: "password",
+        password: generateHash("password"),
         role: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         username: "a",
-        password: "a",
+        password: generateHash("a"),
         role: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       }
     ];
-
+    
     // const users = faker.helpers.multiple(createRandomUser, {
     //   count: 5,
     // });

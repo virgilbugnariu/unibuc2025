@@ -2,16 +2,17 @@ const {
     GraphQLList,
 } = require('graphql');
 const StudentType = require('../types/StudentType');
-const { listEntities } = require('../../fakeDb');
+const db = require('../../models');
 
-const resolver = (_, args, context) => {
+const resolver = async (_, args, context) => {
     const isAdminUser = context.user.role === "admin";
 
     if(!isAdminUser) {
         return [];
     }
     
-    return listEntities('students');
+    const students = await db.Student.findAll();
+    return students;
 }
 
 const studentsQuery = {

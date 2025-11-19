@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const { findEntity } = require("../fakeDb");
+const db = require('../models');
 
 const { JWT_SECRET_KEY } = require('../constants');
 
-const jwtMiddleware = (request, response, next) => {
+const jwtMiddleware = async (request, response, next) => {
     const authorizationHeader = request.headers.authorization;
     
     if(!authorizationHeader) {
@@ -18,7 +18,13 @@ const jwtMiddleware = (request, response, next) => {
     try {
         const payload = jwt.verify(token, JWT_SECRET_KEY);
         const subjectId = payload.sub;
-        const user = findEntity("users", subjectId);
+        const user = await db.User.findByPk(subjectId);
+
+        if (!user) {
+            console.error("No user found for the given token!");
+            next();
+            return;
+        }
 
         request.userData = user;
 
