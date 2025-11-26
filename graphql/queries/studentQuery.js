@@ -13,8 +13,19 @@ const studentQuery = {
     },
     resolve: async (_, args) => {
         const { id } = args;
-        
+
+        // const student = await db.Student.findByPk(id, {
+        //     include: [{
+        //         model: db.Lecture,
+        //         as: 'lectures',
+        //         through: { attributes: [] }
+        //     }]
+        // });
+
+
         const student = await db.Student.findByPk(id);
+        const lectures = await student.getLectures();
+        student.lectures = lectures;
 
         return student;
     }
