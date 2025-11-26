@@ -1,5 +1,6 @@
-const { 
+const {
     GraphQLInt,
+    GraphQLError,
 } = require('graphql');
 const StudentType = require('../types/StudentType');
 const db = require('../../models');
@@ -22,9 +23,12 @@ const studentQuery = {
         //     }]
         // });
 
-
         const student = await db.Student.findByPk(id);
+        if(!student) {
+          throw new GraphQLError("Not found");
+        }
         const lectures = await student.getLectures();
+
         student.lectures = lectures;
 
         return student;

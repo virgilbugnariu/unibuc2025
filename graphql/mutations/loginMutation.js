@@ -4,9 +4,21 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = require("../../constants");
 const db = require("../../models");
 const bcrypt = require("bcrypt");
+const { GraphQLUnionType } = require("graphql");
+const FailedAuthenticationType = require("../types/FailedAuthenticationType");
 
 const loginMutation = {
-    type: LoggedInUserType,
+    type: new GraphQLUnionType({
+        name: 'LoginMutationUnion',
+        types: [LoggedInUserType, FailedAuthenticationType],
+        resolveType: (value) => {
+            if(value.token) {
+                return 'LoggedInUser';
+            }
+
+            return 'FailedAuthentication';
+        }
+    }),
     args: {
         input: {
             type: LoginCredentialsInputType
@@ -14,13 +26,12 @@ const loginMutation = {
     },
     resolve: async (_, args) => {
         const { username, password } = args.input;
-        
+
         const user = await db.User.findOne({ where: { username } });
 
         if(!user) {
             return {
-                id: 0,
-                token: "invalid_token",
+              reason: "Incorrect Password",
             }
         }
 
@@ -38,8 +49,7 @@ const loginMutation = {
         }
 
         return {
-            id: 0,
-            token: "invalid_token",
+          reason: "Incorrect Password",
         }
     }
 }
