@@ -4,7 +4,7 @@ const { findEntity } = require("../fakeDb");
 
 const { JWT_SECRET_KEY } = require('../constants');
 
-const jwtMiddleware = (request, response, next) => {
+const jwtMiddleware = async (request, response, next) => {
     const authorizationHeader = request.headers.authorization;
     
     if(!authorizationHeader) {
@@ -18,7 +18,7 @@ const jwtMiddleware = (request, response, next) => {
     try {
         const payload = jwt.verify(token, JWT_SECRET_KEY);
         const subjectId = payload.sub;
-        const user = findEntity("users", subjectId);
+        const user = await findEntity("users", subjectId);
 
         request.userData = user;
 

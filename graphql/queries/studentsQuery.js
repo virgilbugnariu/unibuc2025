@@ -8,6 +8,7 @@ const resolver = (_, args, context) => {
     const isAdminUser = context.user.role === "admin";
 
     if(!isAdminUser) {
+        console.log('is not admin');
         return [];
     }
     
