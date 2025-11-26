@@ -1,4 +1,5 @@
-const { GraphQLObjectType, GraphQLInt, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLList } = require('graphql');
+const LectureType = require('./LectureType');
 
 const StudentType = new GraphQLObjectType({
     name: "Student",
@@ -14,6 +15,9 @@ const StudentType = new GraphQLObjectType({
         },
         age: {
             type: GraphQLInt,
+        },
+        lectures: {
+            type: new GraphQLList(LectureType),
         }
     }
 });

@@ -15,11 +15,21 @@ const studentQuery = {
     resolve: async (_, args) => {
         const { id } = args;
 
+        // const student = await db.Student.findByPk(id, {
+        //     include: [{
+        //         model: db.Lecture,
+        //         as: 'lectures',
+        //     }]
+        // });
+
         const student = await db.Student.findByPk(id);
 
         if(!student) {
           throw new GraphQLError("Not found");
         }
+
+        const lectures = await student.getLectures();
+        student.lectures = lectures;
 
         return student;
     }
