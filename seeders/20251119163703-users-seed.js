@@ -1,15 +1,4 @@
 'use strict';
-// cjs f***ery that does not work
-// const { faker } = require('@faker-js/faker');
-
-// function createRandomUser() {
-//   return {
-//     firstName: faker.person.firstName(),
-//     lastName: faker.person.lastName(),
-//     email: faker.internet.email(),
-//     password: faker.internet.password(),
-//   };
-// }
 const bcrypt = require('bcrypt');
 
 const generateHash = (plaintextPassword) => bcrypt.hashSync(plaintextPassword, 3);
@@ -35,10 +24,6 @@ module.exports = {
         updatedAt: new Date(),
       }
     ];
-    
-    // const users = faker.helpers.multiple(createRandomUser, {
-    //   count: 5,
-    // });
 
     await queryInterface.bulkInsert('Users', users, {});
 

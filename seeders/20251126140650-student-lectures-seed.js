@@ -1,45 +1,42 @@
 'use strict';
-
+const db = 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-
     const studentLectures = [
-      // John Appleseed (studentId: 1) enrolled in multiple lectures
       {
         studentId: 1,
-        lectureId: 1, // Introduction to Computer Science
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        studentId: 1,
-        lectureId: 2, // Data Structures and Algorithms
+        lectureId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         studentId: 1,
-        lectureId: 3, // Web Development
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      // Mary The lamb (studentId: 2) enrolled in multiple lectures
-      {
-        studentId: 2,
-        lectureId: 1, // Introduction to Computer Science
+        lectureId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        studentId: 2,
-        lectureId: 3, // Web Development
+        studentId: 1,
+        lectureId: 3,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         studentId: 2,
-        lectureId: 4, // Database Systems
+        lectureId: 1, 
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        studentId: 2,
+        lectureId: 3, 
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        studentId: 2,
+        lectureId: 4,
         createdAt: new Date(),
         updatedAt: new Date(),
       }
