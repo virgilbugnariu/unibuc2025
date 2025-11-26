@@ -6,7 +6,7 @@ const { JWT_SECRET_KEY } = require('../constants');
 
 const jwtMiddleware = async (request, response, next) => {
     const authorizationHeader = request.headers.authorization;
-    
+
     if(!authorizationHeader) {
         console.log("No authorization header found!");
         next();
