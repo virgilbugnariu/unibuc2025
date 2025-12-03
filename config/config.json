@@ -2,5 +2,10 @@
   "development": {
     "storage": "database.sqlite",
     "dialect": "sqlite"
+  },
+  "test": {
+    "storage": ":memory:",
+    "dialect": "sqlite",
+    "logging": false
   }
 }
